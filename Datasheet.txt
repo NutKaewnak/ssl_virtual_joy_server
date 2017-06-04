@@ -1,0 +1,23 @@
+ping
+id: integer
+type: 0
+data: Null
+
+kick (red)
+id: integer
+type: 1
+data: 00 - 99
+
+chip (orange)
+id: integer
+type: 2
+data: 00 - 99
+
+movement
+id: integer
+type: 3
+wheel_1: 000 - 255
+wheel_2: 000 - 255
+wheel_3: 000 - 255
+wheel_4: 000 - 255
+data: wheel_1, wheel_2, wheel_3, wheel_4

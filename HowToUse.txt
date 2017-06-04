@@ -1,0 +1,32 @@
+Brief description
+-----------------
+- Joy is a virtual gamepad.
+- Joy made from HTML5.
+- Joy must connect to server before use.
+- Joy use Websocket protocol to communicate to server
+- Log show feedback from server.
+- Mostly Log is the same as Joy.
+
+
+Installation
+------------
+    1. cd to this directory
+    2. npm install
+
+Run
+---
+    node server.js
+#############################################
+### webserver run on port 8080            ###
+### websocket server run on port 8081     ###
+#############################################
+
+Use
+---
+#Load joy
+- http://<web-server-ip>:<web-server-port>/?websocketServer=<websocket-server-ip>:<websocket-server-port>
+ex. http://localhost:8080/?websocketServer=localhost:8081
+
+#Show feedback, status, latency
+- http://<web-server-ip>:<web-server-port>/log.html?websocketServer=<websocket-server-ip>:<websocket-server-port>
+ex. http://localhost:8080/log.html?websocketServer=localhost:8081

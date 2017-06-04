@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <script src="js/jquery.js"></script>
+    <script type="text/javascript">
+        // Global variables
+        var centerX = 0;
+        var centerY = 0;
+
+
+
+        function canvasSpaceGame() {
+
+            // Get the canvas element.
+            canvas = document.getElementById("myCanvas");
+            var centerX = canvas.width / 2;
+            var centerY = canvas.height / 2;
+
+            // Make sure you got it.
+            if (canvas.getContext)
+
+            // If you have it, create a canvas user interface element.
+            {
+                // Specify 2d canvas type.
+                ctx = canvas.getContext("2d");
+
+                // Paint it black.
+                //   ctx.fillStyle = "green";
+                //   ctx.rect(0, 0, 1000, 500);
+                //   ctx.fill();
+
+                // Save the initial background.
+                //   back = ctx.getImageData(0, 0, 30, 30);
+
+                // Paint the starfield.
+                //   stars();
+
+                // Draw space ship.
+                //   makeShip();
+                // makeRobot();
+                // ctx.getImageData(0, 0, 30, 30);
+            }
+
+            // Play the game until the until the game is over.
+            gameLoop = setInterval(doGameLoop, 16);
+
+            // Add keyboard listener.
+            window.addEventListener('keydown', whatKey, true);
+
+        }
+
+        function makeRobot() {
+
+            var radius = 20;
+            ctx.beginPath();
+            ctx.arc(centerX,-centerY, radius, 0, 2 * Math.PI, false);
+            ctx.fillStyle = 'gray';
+            ctx.fill();
+            ctx.lineWidth = 5;
+            ctx.strokeStyle = '#003300';
+            ctx.stroke();
+        }
+
+        function doGameLoop() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+            ctx.fillStyle = "green";
+            ctx.rect(0, 0, 1000, 500);
+            ctx.fill();
+
+            makeRobot();
+            // Put old background down to erase shipe.
+            // ctx.putImageData(oldBack, oldShipX, oldShipY);
+
+            // Put ship in new position.
+            // ctx.putImageData(ship, shipX, shipY);
+
+        }
+
+        // Get key press.
+
+
+        function whatKey(evt) {
+
+            // Flag to put variables back if we hit an edge of the board.
+            var flag = 0;
+
+            // Get where the ship was before key process.
+            oldShipX = shipX;
+            oldShipY = shipY;
+            oldBack = back;
+
+            switch (evt.keyCode) {
+
+                // Left arrow.
+                case 37:
+                    shipX = shipX - 30;
+                    if (shipX < 0) {
+                        // If at edge, reset ship position and set flag.
+                        shipX = 0;
+                        flag = 1;
+                    }
+                    break;
+
+                // Right arrow.
+                case 39:
+                    shipX = shipX + 30;
+                    if (shipX > 270) {
+                        // If at edge, reset ship position and set flag.
+                        shipX = 270;
+                        flag = 1;
+                    }
+                    break;
+
+                // Down arrow
+                case 40:
+                    shipY = shipY + 30;
+                    if (shipY > 270) {
+                        // If at edge, reset ship position and set flag.
+                        shipY = 270;
+                        flag = 1;
+                    }
+                    break;
+
+                // Up arrow 
+                case 38:
+                    shipY = shipY - 30;
+                    if (shipY < 0) {
+                        // If at edge, reset ship position and set flag.
+                        shipY = 0;
+                        flag = 1;
+                    }
+                    break;
+
+            }
+
+            // If flag is set, the ship did not move.
+            // Put everything back the way it was.
+            if (flag) {
+                shipX = oldShipX;
+                shipY = oldShipY;
+                back = oldBack;
+            } else {
+                // Otherwise, get background where the ship will go
+                // So you can redraw background when the ship
+                // moves again.
+                back = ctx.getImageData(shipX, shipY, 30, 30);
+            }
+        }
+
+        function getParameterByName(name, url) {
+            if (!url) {
+                url = window.location.href;
+            }
+            name = name.replace(/[\[\]]/g, "\\$&");
+            var regex = new RegExp("[?&]" + name + "(=([^&#]*)|&|#|$)"),
+                results = regex.exec(url);
+            if (!results) return null;
+            if (!results[2]) return '';
+            return decodeURIComponent(results[2].replace(/\+/g, " "));
+        }
+
+        $(window).load(function () {
+            var server = getParameterByName('websocketServer')
+            var permission = getParameterByName('permission')
+            var ws = new WebSocket('ws://' + server + '/?permission=' + permission);
+
+            ws.onopen = function () {
+                console.log("Connected!")
+                alert("Connected!");
+            };
+
+            ws.onmessage = function (evt) {
+                // var received_msg = evt.data;
+
+                data = JSON.parse(evt.data);
+                console.log(data);
+                if (data['type'] == 10 && data['code'] == 1) {
+                    pings[data['id']].stop = new Date().getTime();
+                    computeLatency();
+                }
+                if (data['type'] == 3 && data['code'] == 0) {
+                    centerX += data['x_translation'] 
+                    centerY += data['y_translation']
+                    console.log('centerX: ' + centerX + '   ' + data['x_translation']);
+                    console.log('centerY: ' + centerY + '   ' + data['y_translation']);
+                }
+            };
+        });
+    </script>
+</head>
+
+<body onload="canvasSpaceGame()">
+<h1>
+    SSL Simulation
+</h1>
+<canvas id="myCanvas" width="1000" height="500">
+</canvas>
+</body>
+
+</html>
