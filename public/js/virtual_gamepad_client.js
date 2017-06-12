@@ -168,7 +168,11 @@ function omni_direction_vel_transform (x, y, w){
     else
         speed_wheel4 = wheel4 * 127 + 128;
     
-    return Math.floor(speed_wheel1).toString() + Math.floor(speed_wheel2).toString() + Math.floor(speed_wheel3).toString() + Math.floor(speed_wheel4).toString();
+    return convert_3_digit(Math.floor(speed_wheel1)) + convert_3_digit(Math.floor(speed_wheel2)) + convert_3_digit(Math.floor(speed_wheel3)) + convert_3_digit(Math.floor(speed_wheel4));
+}
+
+function convert_3_digit(str) {
+    return String("000" + str).slice(-3); 
 }
 
 /*************************
@@ -263,6 +267,8 @@ $( window ).load(function() {
             // TODO: Implement kick and chip here!!
             if (code === 1) {
                 // kick();
+                // Do Something
+
             } else if (code === 2) {
                 // chip();
             }
