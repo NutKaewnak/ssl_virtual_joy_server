@@ -257,7 +257,7 @@ $( window ).load(function() {
             $("#"+btnId).attr("class", "");
             var code = $(this).data("code");
             if (debug){
-                data = {id: generateID(), type: code, value: 49};
+                data = {id: generateID(), type: code, data: 49};
             }
             else {
                 data = generateID() + code + 49;
@@ -271,6 +271,7 @@ $( window ).load(function() {
 
             } else if (code === 2) {
                 // chip();
+                // Do Something
             }
 
             ws.send(JSON.stringify(data));
@@ -285,7 +286,7 @@ $( window ).load(function() {
                     wheel_data = omni_direction_vel_transform(direction.x_translation, direction.y_translation, y_rotation);
                     if (debug) {
                         //data = {id: generateID(), type: 3, code: 0, x_translation: 0 , y_translation: 0, x_rotation: x_rotation, y_rotation: y_rotation, percent: 100};
-                        data = {id: generateID(), data: 3, value: wheel_data};
+                        data = {id: generateID(), type: 3, data: wheel_data};
                     } else {
                         data = generateID() + 3 + wheel_data;
                     }
@@ -324,6 +325,13 @@ $( window ).load(function() {
                 default :
                     // socket.emit("padEvent", {type: 0x03, code: 0x00, value: direction.x});
                     // socket.emit("padEvent", {type: 0x03, code: 0x01, value: direction.y});
+                    if (debug) {
+                        //data = {id: generateID(), type: 3, code: 0, x_translation: 0 , y_translation: 0, x_rotation: x_rotation, y_rotation: y_rotation, percent: 100};
+                        data = {id: generateID(), type: 0};
+                    } else {
+                        data = generateID() + 0;
+                    }
+                    ws.send(JSON.stringify(data));
                     break;
             }
         };

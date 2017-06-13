@@ -26,7 +26,7 @@ wss.on('connection', function connection(ws) {
     console.log('received: %s', message);
 
     data = JSON.parse(message);
-    feedback = {id: data['id'], type: data['type'], code: data['code'], status: 'done', timestamp: (new Date()).getTime()}
+    feedback = {id: data['id'], type: data['type'], data: data['data'], status: 'done', timestamp: (new Date()).getTime()}
     if(admins) {
         for(var i=0; i<admins.length; i++) {
             admins[i].send(message);
