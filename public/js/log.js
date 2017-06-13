@@ -49,7 +49,7 @@ var pings = [];
 function ping(num) {
   pings[num] = {};
   pings[num].start = new Date().getTime();
-  data = {id: num, type: 10, code: 1};
+  data = {ping_id: num, type: 0};
   ws.send(JSON.stringify(data));
   setTimeout(function(){ ping(++num) }, 1000);
 }

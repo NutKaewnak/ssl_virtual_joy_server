@@ -33,7 +33,7 @@ wss.on('connection', function connection(ws) {
         }
     }
     if(clients) {
-        if(data['type'] == 10 && data['code'] == 1){
+        if(data['type'] == 0){
           ws.send(message);
           return;
         }
@@ -68,12 +68,12 @@ wss.on('connection', function connection(ws) {
 
 function statusFeedback(num, time) {
     if (clients) {
-        feedback = {id: num, type: 0x0A, code: 0x00, battery: 100, onlineTime: time, errorCode: 'none', timestamp: (new Date()).getTime()};
+        feedback = {feedback_id: num, type: 0x00, battery: 100, onlineTime: time, errorCode: 'none', timestamp: (new Date()).getTime()};
         for(var i=0; i<clients.length; i++) {
             clients[i].send(JSON.stringify(feedback));
         }
     }
-    setTimeout(function(){ statusFeedback(++num, time+1000) }, 1000);
+    setTimeout(function(){ statusFeedback(++num, time+50) }, 50);
 }
 statusFeedback(0, 0);
 
