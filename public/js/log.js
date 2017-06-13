@@ -29,8 +29,8 @@ ws.onmessage = function (evt) {
   $("#chatbox").scrollTop($("#chatbox")[0].scrollHeight+ 20);
 
   data = JSON.parse(evt.data);
-  if(data['type'] == 10 && data['code'] == 1){
-    pings[data['id']].stop = new Date().getTime();
+  if(data['type'] == 0){
+    pings[data['ping_id']].stop = new Date().getTime();
     computeLatency();
   }
 };
@@ -47,11 +47,11 @@ ws.onclose = function() {
 
 var pings = [];
 function ping(num) {
-  pings[num] = {};
+  pings[num] = {start:0, stop: 0};
   pings[num].start = new Date().getTime();
   data = {ping_id: num, type: 0};
   ws.send(JSON.stringify(data));
-  setTimeout(function(){ ping(++num) }, 1000);
+  setTimeout(function(){ ping(++num) }, 100);
 }
 
 function computeLatency(){

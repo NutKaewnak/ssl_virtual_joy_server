@@ -100,8 +100,6 @@ var initJoystick = function () {
         } else if (lastDirection != "none") {
             lastDirection = "none";
             setDirection({direction: "none"});
-        } else {
-            setDirection({direction: "vector", x_translation: 0 ,y_translation: 0});
         }
 
     }, 1/30 * 1000);
@@ -236,6 +234,11 @@ $( window ).load(function() {
         alert("Disconnected!");
     }
 
+    ws.onmessage = function (evt) {
+      data = JSON.parse(evt.data);
+      console.log(data);
+    };
+
 //     socket.on("gamepadConnected", function(data) {
         // slotNumber = 0;
 // });
@@ -296,11 +299,16 @@ $( window ).load(function() {
                     break;
 
                 case "rotate" :
-                    // data = {id: generateID(), type: 3, code: 0, x: 0 , y: 0,phi: Math.round(phi * Math.PI / 180 * 100) / 100, percent: 100, timestamp: generateTimestamp()};
-                    // data = {id: generateID(), type: 3, code: 0, x_translation: 0 , y_translation: 0, x_rotation: x_rotation, y_rotation: y_rotation, percent: 100};
+                    wheel_data = omni_direction_vel_transform(direction.x_translation, direction.y_translation, y_rotation);
+                    if (debug) {
+                        //data = {id: generateID(), type: 3, code: 0, x_translation: 0 , y_translation: 0, x_rotation: x_rotation, y_rotation: y_rotation, percent: 100};
+                        data = {id: generateID(), type: 3, data: wheel_data};
+                    } else {
+                        data = generateID() + 3 + wheel_data;
+                    }
+                    ws.send(JSON.stringify(data));
                     // // socket.emit("padEvent", {type: 0x03, code: 0x00, x: 0 , y: 0,phi: phi});
                     // // socket.emit("padEvent", {type: 0x03, code: 0x01, y: direction.y });
-                    // ws.send(JSON.stringify(data));
                     break;
                 case "left" :
                     // socket.emit("padEvent", {type: 0x03, code: 0x00, value: 0});

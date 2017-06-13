@@ -14,6 +14,7 @@ var WebSocketServer = require('ws').Server
 
 var clients = []
 var admins = []
+var start_time = new Date().getTime();
 wss.on('connection', function connection(ws) {
   console.log(ws.upgradeReq.url);
   if(getParameterByName('permission', ws.upgradeReq.url) == "admin"){
@@ -26,7 +27,7 @@ wss.on('connection', function connection(ws) {
     console.log('received: %s', message);
 
     data = JSON.parse(message);
-    feedback = {id: data['id'], type: data['type'], data: data['data'], status: 'done', timestamp: (new Date()).getTime()}
+    feedback = {feedback_id: data['id'], type: 9, data: data['data'], status: 'done', timestamp: (new Date()).getTime()}
     if(admins) {
         for(var i=0; i<admins.length; i++) {
             admins[i].send(message);
@@ -66,16 +67,17 @@ wss.on('connection', function connection(ws) {
 
 });
 
-function statusFeedback(num, time) {
-    if (clients) {
-        feedback = {feedback_id: num, type: 0x00, battery: 100, onlineTime: time, errorCode: 'none', timestamp: (new Date()).getTime()};
-        for(var i=0; i<clients.length; i++) {
-            clients[i].send(JSON.stringify(feedback));
-        }
-    }
-    setTimeout(function(){ statusFeedback(++num, time+50) }, 50);
+function statusFeedback(id) {
+  time = (new Date()).getTime();
+  if (clients) {
+      feedback = {feedback_id: id, type: 0x09, battery: 100, onlineTime: time - start_time, errorCode: 'none', timestamp: time};
+      for(var i=0; i<clients.length; i++) {
+          clients[i].send(JSON.stringify(feedback));
+      }
+  }
+  setTimeout(function(){ statusFeedback("02") }, 1000);
 }
-statusFeedback(0, 0);
+statusFeedback("02");
 
 function getParameterByName(name, url) {
     if (!url) {

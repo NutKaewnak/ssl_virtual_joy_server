@@ -21,3 +21,8 @@ wheel_2: 000 - 255
 wheel_3: 000 - 255
 wheel_4: 000 - 255
 data: wheel_1, wheel_2, wheel_3, wheel_4
+
+feedback
+feedback_id: integer
+type: 9
+data: battery:integer, onlineTime:integer, errorCode:String, timestamp:integer
