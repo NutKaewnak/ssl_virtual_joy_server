@@ -27,7 +27,7 @@ wss.on('connection', function connection(ws) {
     console.log('received: %s', message);
 
     data = JSON.parse(message);
-    feedback = {feedback_id: data['id'], type: 9, data: data['data'], status: 'done', timestamp: (new Date()).getTime()}
+    feedback = {feedback_id: data['id'], type: 9, data: data['data']}
     if(admins) {
         for(var i=0; i<admins.length; i++) {
             admins[i].send(message);
@@ -54,12 +54,12 @@ wss.on('connection', function connection(ws) {
         }
     }
     for(var i = 0; i < clients.length; i++) {
-            // # Remove from our connections list so we don't send
-            // # to a dead socket
-        if(clients[i] == ws) {
-          clients.splice(i);
-          break;
-        }
+      // # Remove from our connections list so we don't send
+      // # to a dead socket
+      if(clients[i] == ws) {
+        clients.splice(i);
+        break;
+      }
     }
   });
 
@@ -68,9 +68,8 @@ wss.on('connection', function connection(ws) {
 });
 
 function statusFeedback(id) {
-  time = (new Date()).getTime();
   if (clients) {
-      feedback = {feedback_id: id, type: 0x09, battery: 100, onlineTime: time - start_time, errorCode: 'none', timestamp: time};
+      feedback = {feedback_id: id, type: 0x09, battery: 100, errorCode: 'none'};
       for(var i=0; i<clients.length; i++) {
           clients[i].send(JSON.stringify(feedback));
       }
