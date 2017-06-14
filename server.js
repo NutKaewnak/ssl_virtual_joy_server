@@ -14,15 +14,17 @@ var WebSocketServer = require('ws').Server
 
 var clients = []
 var admins = []
-var start_time = new Date().getTime();
+
 wss.on('connection', function connection(ws) {
   console.log(ws.upgradeReq.url);
+
   if(getParameterByName('permission', ws.upgradeReq.url) == "admin"){
     admins.push(ws);
   }
   else{
     clients.push(ws);
   }
+
   ws.on('message', function incoming(message) {
     console.log('received: %s', message);
 
@@ -34,13 +36,14 @@ wss.on('connection', function connection(ws) {
         }
     }
     if(clients) {
-        if(data['type'] == 0){
-          ws.send(message);
-          return;
-        }
-        for(var i=0; i<clients.length; i++) {
-            clients[i].send(JSON.stringify(feedback));
-        }
+      if(data['type'] == 0){
+        ws.send(message);
+        return;
+      }
+      feedback = JSON.stringify(feedback)
+      for(var i=0; i<clients.length; i++) {
+        clients[i].send(feedback);
+      }
     }
   });
 
@@ -69,9 +72,10 @@ wss.on('connection', function connection(ws) {
 
 function statusFeedback(id) {
   if (clients) {
-      feedback = {feedback_id: id, type: 0x09, battery: 100, errorCode: 'none'};
+      feedback = JSON.stringify({feedback_id: id, type: 0x09, battery: 100, errorCode: 'none'});
+
       for(var i=0; i<clients.length; i++) {
-          clients[i].send(JSON.stringify(feedback));
+        clients[i].send(feedback);
       }
   }
   setTimeout(function(){ statusFeedback("02") }, 1000);
