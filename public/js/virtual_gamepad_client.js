@@ -97,12 +97,14 @@ var initJoystick = function () {
         //     }
       } else if(phi > 15 || phi < -15) {
             setDirection({direction: "rotate", phi: phi});
-        } else if (lastDirection != "none") {
-            lastDirection = "none";
-            setDirection({direction: "none"});
-        }
+      } else if (lastDirection != "none") {
+          lastDirection = "none";
+          setDirection({direction: "none"});
+      } else {
+        setDirection({direction: "vector", x_translation: 0, y_translation: 0})
+      }
 
-    }, 1/30 * 1000);
+    }, 1/20 * 1000);
 };
 
 function getParameterByName(name, url) {
