@@ -103,7 +103,7 @@ var initJoystick = function () {
     } else {
       setDirection({direction: "vector", x_translation: 0, y_translation: 0})
     }
-  }, 1/20 * 1000);
+  }, 1/10 * 1000);
   
 };
 
