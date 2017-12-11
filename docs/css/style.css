@@ -1,0 +1,135 @@
+body {
+    -moz-user-select: none;
+    -webkit-user-select: none;
+    -ms-user-select:none;
+    user-select:none;
+    -o-user-select:none;
+    font-family: Verdana, Geneva, sans-serif;
+}
+td {
+    text-align: center;
+}
+#dirContainer {
+    position: absolute;
+    top: 0px;
+    left: 0px;
+    height: 100%;
+    width: 35%;
+}
+#slotIndicatorContainer {
+    position: absolute;
+    top: 0px;
+    left: 0px;
+    width: 100%;
+    pointer-events: none;
+}
+#tableIndicator {
+    width: 50px;
+    margin: 0 auto;
+    margin-top: 10%;
+}
+.indicator {
+    width: 10px;
+    height: 5px;
+    background-color: whitesmoke;
+    margin: 2px;
+    box-shadow: 1px 1px 1px 1px #aaa;
+}
+.indicatorSelected {
+    background-color: limegreen;
+}
+.indicatorInvaild {
+    background-color: red;
+}
+.btnSelected{
+    stroke: black !important;
+    stroke-width: 5 !important;
+}
+
+td { text-align: center; }
+td * { display: inline-block; }
+
+.list-header {
+     background-color: #43A047;
+     color: white;
+     border-style: none;
+     box-shadow: 1px 2px 4px rgba(0, 0, 0, .5);
+     position: fixed;
+     z-index: 1;
+     top: 0px;
+}
+
+.list-group-item{
+     margin-top: 5px;
+}
+
+.list-group-item:first-child {
+     border-radius: 0px;
+}
+
+.list-group{
+     padding: 0px 0px 0px 0px;
+}
+
+.zero-margin {
+     margin: 0px 0px 0px 0px;
+}
+
+#available_IP {
+     margin-top: 70px;
+}
+
+.refresh {
+     color: white;
+}
+
+.refresh:hover { 
+    color: gray;
+}
+
+.refresh:active { 
+    color: black;
+}
+
+.battery {
+	position: fixed;
+	display: block;
+	margin: 0px 0 0 5px;
+	background: #8BC34A;
+	width: 25px;
+	height: 14px;
+    float: left;
+    top: 10px;
+    right: 25px;
+}
+
+.battery:before {
+	content: "";
+	display: block;
+	background: transparent;
+	border: 3px solid black;
+	margin: -6px;
+	width: 42.5px;
+	height: 20px;
+	position: absolute;
+	border-radius: 2px;
+}
+
+.battery:after {
+	content: "";
+	display: block;
+	background: transparent;
+	border: 3px solid black;
+	margin: 0px 40px;
+	width: 3px;
+	height: 8px;
+	position: absolute;
+	border-radius: 2px;
+}
+
+.battery.percent-0 {width: 0px; margin-right:36px;}
+.battery.percent-10 {width: 4px; margin-right:32px; background: red;}
+.battery.percent-20 {width: 7.5px; margin-right:28.5px; background: orange;}
+.battery.percent-50 {width: 20px; margin-right:16px;}
+.battery.percent-75 {width: 27px; margin-right:9px;}
+.battery.percent-100 {width: 36px; margin-right:0px;}
