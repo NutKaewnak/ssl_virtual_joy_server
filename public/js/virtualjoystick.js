@@ -49,6 +49,7 @@ var VirtualJoystick	= function(opts)
         this._container.addEventListener( 'mouseup'	, this._$onMouseUp	, false );
         this._container.addEventListener( 'mousemove'	, this._$onMouseMove	, false );
     }
+
 }
 
 VirtualJoystick.prototype.destroy	= function()
